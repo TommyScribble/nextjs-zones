@@ -1,0 +1,51 @@
+@import "../../../styles/fonts", "../../../styles/variables",
+	"../../../styles/mixins";
+
+%shared-styles {
+	display: block;
+	font-weight: 400;
+	margin: 0;
+}
+
+.headingXXL {
+	@extend %shared-styles;
+	@include font-get(headingXXL);
+}
+
+.headingXL {
+	@extend %shared-styles;
+	@include font-get(headingXL);
+}
+
+.headingL {
+	@extend %shared-styles;
+	@include font-get(headingL);
+}
+
+.headingM {
+	@extend %shared-styles;
+	@include font-get(headingM);
+}
+
+.headingS {
+	@extend %shared-styles;
+	@include font-get(headingS);
+}
+
+.headingXS {
+	@extend %shared-styles;
+	@include font-get(headingXS);
+}
+
+.headingXXS {
+	@extend %shared-styles;
+	@include font-get(headingXXS);
+}
+
+.blueStoneMono {
+	font-family: $bluestone-custom;
+}
+
+.interstateMono {
+	font-family: $bluestone-heading-mono;
+}

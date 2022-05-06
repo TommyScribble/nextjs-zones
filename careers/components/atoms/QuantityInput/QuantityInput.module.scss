@@ -1,0 +1,50 @@
+.backButton {
+	transform: rotateY(180deg);
+}
+
+.form {
+	display: grid;
+	width: max-content;
+	padding: $spacing-2;
+	border: rem(1px) solid colour-get("brand", "primary");
+	grid-template-columns: repeat(3, min-content);
+	gap: $spacing-1;
+	align-items: center;
+	border-radius: $border-radius;
+}
+
+.buttons {
+	display: flex;
+	height: rem(25px);
+	width: rem(25px);
+	padding: 0;
+	background: none;
+	border: none;
+	align-items: center;
+	justify-content: center;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.input {
+	height: rem(25px);
+	width: rem(50px);
+	max-width: rem(50px);
+	text-align: center;
+	background: none;
+	border: none;
+
+	&:read-only {
+		outline: none;
+	}
+}
+
+.error {
+	margin-top: $spacing-2;
+
+	&.hidden {
+		opacity: 0%;
+	}
+}

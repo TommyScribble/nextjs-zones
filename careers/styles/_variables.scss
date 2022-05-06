@@ -1,0 +1,106 @@
+@use "sass:math";
+@import "./colours","./effects","./buttons";
+
+/* stylelint-disable value-keyword-case */
+$bluestone-custom: "Bluestone Mono", Sans-Serif;
+$bluestone-heading-mono: "Interstate Mono", Sans-Serif;
+$bluestone-heading-std: "Interstate", Sans-Serif;
+$bluestone-body: "Roboto", Sans-Serif;
+$base-font-size: 18;
+$desktop-breakpoint: "1780px"; // when updating this also update ./components/Navigation/index.tsx
+$breakpoints: (
+	xs: 24, // 432px
+	sm: 48, // 768px
+	md: 64, // 1024px
+	lg: 75, // 1200px
+	xl: 85, // 1360px
+);
+$margins: (
+	vertical:(
+		xs:30,
+		sm: 50,
+		md: 100,
+		lg: 150,
+	),
+	horizontal:(
+		xs:30,
+		sm: 50,
+		md: 100,
+		lg: 150
+	)
+);
+$container-widths: (
+	large: 1400,
+	small: 1165
+);
+$fonts: (
+	headingXXL: (
+		52,
+		100,
+		1.2,
+	),
+	headingXL: (
+		42,
+		80,
+		1.2,
+	),
+	headingL: (
+		32,
+		54,
+		1.2,
+	),
+	headingM: (
+		32,
+		42,
+		1.2,
+	),
+	headingS: (
+		24,
+		32,
+		1.2,
+	),
+	headingXS: (
+		26,
+		28,
+		1.2,
+	),
+	headingXXS: (
+		18,
+		26,
+		1.2,
+	),
+	bodyM: (
+		18,
+		22,
+		1.5,
+	),
+	body: (
+		16,
+		18,
+		1.7,
+	),
+	bodyA11y: (
+		16,
+		18,
+		2,
+	),
+	bodyS: (
+		14,
+		16,
+		1.7,
+	),
+);
+$base-spacing-unit: math.div(5, $base-font-size) * 1rem; // 5px OR 0.278rem
+$spacing-1: $base-spacing-unit;
+$spacing-2: $base-spacing-unit * 2;
+$spacing-3: $base-spacing-unit * 3;
+$spacing-4: $base-spacing-unit * 4;
+$spacing-5: $base-spacing-unit * 5;
+$spacing-6: $base-spacing-unit * 6;
+$spacing-7: $base-spacing-unit * 7;
+$spacing-8: $base-spacing-unit * 8;
+$spacing-9: $base-spacing-unit * 9;
+$spacing-10: $base-spacing-unit * 10;
+$small-container-width: 1165px;
+$large-container-width: 1400px;
+$border-radius: 5px;

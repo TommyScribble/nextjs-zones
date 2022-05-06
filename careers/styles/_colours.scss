@@ -1,0 +1,54 @@
+@import "./functions";
+
+// -------------------------------------------------- //
+// All colours                                        //
+// -------------------------------------------------- //
+// Ensure all colours that are to be used in this project are added to the map below.
+// Use only general descriptive names to make rebranding, or any colour updates, simple to implement.
+// Make sure to add them to the storybook styleguide Colours Swatch (components/atoms/Styleguide/Swatch.tsx)
+$colours: (
+	brand: (
+		primary: #606E81,
+	),
+	utility: (
+		lightest: #FFF,
+		greydark: #3C3C3B,
+	),
+	translucent: (
+		black30: rgb(0 0 0 / 30%),
+		black40: rgb(0 0 0 / 40%),
+		black50: rgb(0 0 0 / 50%),
+		black60: rgb(0 0 0 / 60%),
+	),
+);
+
+/// Get colours from nested brand colour map
+/// @author Tommy Scribble
+/// @param {String} $color-type - brand, utility
+/// @param {String} $color - colour to grab from type map
+/// @return {String} - Hex colour code
+@function colour-get($color-type, $color) {
+	@if map-has-key($colours, $color-type) {
+		@return map-deep-get($colours, $color-type, $color);
+	}
+
+	@return map-deep-get($colours, utility, greyDark);
+}
+
+// Generate colour styles so they can be used gloablly
+@each $key, $content in $colours {
+	@each $newkey, $value in $content {
+		.#{$key}-#{$newkey} {
+			color: #{$value};
+		}
+	}
+}
+
+// Generate AppColour styles so they can be used gloablly
+@each $key, $content in $colours {
+	@each $newkey, $value in $content {
+		.#{$key}_#{$newkey} {
+			color: #{$value};
+		}
+	}
+}

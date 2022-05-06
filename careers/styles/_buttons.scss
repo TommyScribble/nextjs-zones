@@ -1,0 +1,88 @@
+$button-variants: (
+	primary-brand: (
+		background-color: colour-get(brand, primary),
+		border-color: colour-get(brand, primary),
+		color: colour-get(utility, lightest),
+		background-color-hover: unset,
+		color-hover: colour-get(brand, primary),
+	),
+	primary-utility: (
+		background-color: colour-get(utility, lightest),
+		border-color: colour-get(utility, lightest),
+		color: colour-get(brand, primary),
+		background-color-hover: unset,
+		color-hover: colour-get(utility, lightest),
+	),
+	secondary-brand: (
+		background-color: unset,
+		border-color: colour-get(brand, primary),
+		color: colour-get(brand, primary),
+		background-color-hover: colour-get(brand, primary),
+		color-hover: colour-get(utility, lightest),
+	),
+	secondary-utility: (
+		background-color: unset,
+		border-color: colour-get(utility, lightest),
+		color: colour-get(utility, lightest),
+		background-color-hover: colour-get(utility, lightest),
+		color-hover: colour-get(brand, primary),
+	),
+	tertiary: (
+		background-color: colour-get(translucent, black30),
+		border-color: colour-get(utility, lightest),
+		color: colour-get(utility, lightest),
+		background-color-hover: colour-get(utility, lightest),
+		color-hover: colour-get(brand, primary),
+	),
+	quaternary: (
+		background-color: colour-get(brand, primary),
+		border-color: colour-get(brand, primary),
+		color: colour-get(utility, lightest),
+		background-color-hover: colour-get(utility, lightest),
+		border-color-hover: colour-get(utility, lightest),
+		color-hover: colour-get(brand, primary),
+	),
+);
+
+@mixin button-style($variant, $large: false) {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	min-height: rem(44px);
+	width: 100%;
+	padding: 0 $spacing-5;
+	font-size: rem(14px);
+	font-family: $bluestone-heading-mono;
+	border-radius: rem(25px);
+	border-width: rem(2px);
+	border-style: solid;
+	box-shadow: none;
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 200ms;
+	text-align: center;
+
+	@include media(xs) {
+		width: auto;
+	}
+
+	@include media(sm) {
+		width: auto;
+		padding: 0 rem(75px);
+	}
+
+	background-color: map-deep-get($button-variants, $variant, background-color);
+	border-color: map-deep-get($button-variants, $variant, border-color);
+	color: map-deep-get($button-variants, $variant, color);
+
+	&:hover,
+	&:focus-visible {
+		background-color: map-deep-get($button-variants, $variant, background-color-hover);
+		color: map-deep-get($button-variants, $variant, color-hover);
+		border-color: map-deep-get($button-variants, $variant, border-color-hover);
+	}
+
+	@if $large {
+		min-width: rem(330px);
+	}
+}

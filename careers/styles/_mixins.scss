@@ -1,0 +1,160 @@
+@use "sass:math";
+@import "./variables", "./functions";
+
+$rem-baseline: 18px !default;
+$rem-fallback: false !default;
+$rem-px-only: false !default;
+
+@function rem-separator($list, $separator: false) {
+	@if $separator == "comma" or $separator == "space" {
+		@return append($list, null, $separator);
+	}
+
+	@if function-exists("list-separator") == true {
+		@return list-separator($list);
+	}
+
+	// list-separator polyfill by Hugo Giraudel (https://sass-compatibility.github.io/#list_separator_function)
+	$test-list: ();
+
+	@each $item in $list {
+		$test-list: append($test-list, $item, space);
+	}
+
+	@return if($test-list == $list, space, comma);
+}
+
+@mixin rem-baseline($zoom: 100%) {
+	font-size: $zoom / 16px * $rem-baseline;
+}
+
+@function rem-convert($to, $values...) {
+	$result: ();
+	$separator: rem-separator($values);
+
+	@each $value in $values {
+		@if type-of($value) == "number" and
+			unit($value) == "rem" and
+			$to == "px" {
+			$result: append($result, $value / 1rem * $rem-baseline, $separator);
+		} @else if
+			type-of($value) == "number" and
+			unit($value) == "px" and
+			$to == "rem" {
+			$result: append($result, math.div($value, $rem-baseline) * 1rem, $separator);
+		} @else if type-of($value) == "list" {
+			$value-separator: rem-separator($value);
+			$value: rem-convert($to, $value...);
+			$value: rem-separator($value, $value-separator);
+			$result: append($result, $value, $separator);
+		} @else {
+			$result: append($result, $value, $separator);
+		}
+	}
+
+	@return if(length($result) == 1, nth($result, 1), $result);
+}
+
+@function rem($values...) {
+	@if $rem-px-only {
+		@return rem-convert(px, $values...);
+	} @else {
+		@return rem-convert(rem, $values...);
+	}
+}
+
+@mixin rem($properties, $values...) {
+	@if type-of($properties) == "map" {
+		@each $property in map-keys($properties) {
+			@include rem($property, map-get($properties, $property));
+		}
+	} @else {
+		@each $property in $properties {
+			@if $rem-fallback or $rem-px-only {
+				#{$property}: rem-convert(px, $values...);
+			}
+
+			@if not $rem-px-only {
+				#{$property}: rem-convert(rem, $values...);
+			}
+		}
+	}
+}
+
+/// the main media query function, ensures min-width is always used
+/// Uses the variables in the $breakpoints map but can also take a number for special circumstances
+/// @author Tommy Scribble
+/// @param {variable | number} $width sould be taken from the $breakpoints map unless specific breakpoint is needed
+/// @return {property} properly formatted media query
+@mixin media($width) {
+	@if map-has-key($breakpoints, $width) {
+		@media screen and (min-width: #{map-get($breakpoints, $width)}rem) {
+			@content;
+		}
+	} @else {
+		@media screen and (min-width: rem(#{$width})) {
+			@content;
+		}
+	}
+}
+
+/// set clamp property for fonts with fallback for older browsers
+/// @author Tommy Scribble
+/// @param {number} $min-value - from the $fonts map
+/// @param {number} $max-value - from the $fonts map
+/// @param {number} $min-breakpoint - from the $breakpoints map
+/// @param {number} $ma-breakpoint - from the $breakpoints map
+/// @return {property} CSS properties with fallback for older browsers
+@mixin set-clamp(
+	$min-value,
+	$max-value,
+	$min-breakpoint: map-get($breakpoints, sm),
+	$max-breakpoint: map-get($breakpoints, lg)
+) {
+	font-size: to-fixed(calc($max-value / $base-font-size) * 1rem, 3);
+	font-size: get-clamp-value($min-value, $max-value, $min-breakpoint, $max-breakpoint);
+}
+
+/// Get font size and line height from $fonts map, uses clamp functions under the hood
+/// @author Tommy Scribble
+/// @param {String} $font-size - heading, para, anchor, button
+/// @param {String} $size - xl, l, m,s, xs
+/// @return {String} - font-size and line heihgt properties
+@mixin font-get($font-size) {
+	@if map-has-key($fonts, $font-size) {
+		$value: map-get($fonts, $font-size);
+
+		@if type-of($value) == "list" {
+			@include set-clamp(nth($value, 1), nth($value, 2));
+
+			@if length($value) > 1 {
+				line-height: nth($value, 3);
+			}
+		} @else {
+			font-size: to-fixed($value, 3);
+		}
+	} @else {
+		@error "Your font size variable is probably wrong (#{$font-size}) please check the stylesheet";
+	}
+}
+
+/// Adds a responsive container to sections/organisms
+/// @author Tommy Scribble
+/// @param {string} $size - large or small
+/// @return {property} CSS properties and media queries for container sizes
+@mixin container($size, $centered: true) {
+	$max-width: map-get($container-widths, $size) * 1px;
+
+	margin: 0 auto;
+
+	@if $centered == false {
+		margin: unset;
+	}
+
+	padding: margin("vertical", "md") margin("horizontal", "xs");
+	max-width: calc(rem($max-width) + margin("horizontal", "sm") * 2);
+
+	@include media(md) {
+		padding: margin("vertical", "lg") margin("horizontal", "md");
+	}
+}

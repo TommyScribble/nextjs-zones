@@ -1,0 +1,8 @@
+@import "../../../../styles/fonts", "../../../../styles/variables", "../../../../styles/mixins";
+
+.sectionHeader {
+	@include font-get(headingL);
+
+	text-decoration: underline;
+	margin-top: $spacing-4;
+}

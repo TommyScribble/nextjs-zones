@@ -1,0 +1,8 @@
+// Global styles for the styleguide
+@import "../../../styles/mixins";
+
+.item {
+	@include media(md) {
+		width: 50%;
+	}
+}

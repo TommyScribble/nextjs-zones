@@ -1,0 +1,103 @@
+/* stylelint-disable */
+/// Map deep get adds the  ability to search and return from nested lists
+/// @author Hugo Giraudel
+/// @param {Map} $map - Map
+/// @param {Arglist} $keys - Key chain
+/// @return {*} - Desired value
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+
+    @return $map;
+}
+
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace +
+            str-replace(
+                str-slice($string, $index + str-length($search)),
+                $search,
+                $replace
+            );
+    }
+
+    @return $string;
+}
+
+/// Computes an exponent.
+/// @author https://sass-lang.com/documentation/syntax/comments#documentation-comments
+/// @param {number} $base - The number to multiply by itself.
+/// @param {integer (unitless)} $exponent - The number of `$base`s to multiply together.
+/// @return {number} `$base` to the power of `$exponent`.
+@function pow($base, $exponent) {
+	$result: 1;
+	@for $_ from 1 through $exponent {
+		$result: $result * $base;
+	}
+	@return $result;
+}
+
+/// toFixed() JS function in Sass
+/// @author Kitty Giraudel
+/// @param {Number} $float - Number to format
+/// @param {Number} $digits [2] - Number of digits to leave
+/// @return {Number} - 
+@function to-fixed($float, $digits: 2) {
+  $sass-precision: 5;
+  
+  @if $digits > $sass-precision {
+    @warn "Sass sets default precision to #{$sass-precision} digits, and there is no way to change that for now."
+    + "The returned number will have #{$sass-precision} digits, even if you asked for `#{$digits}`."
+    + "See https://github.com/sass/sass/issues/1122 for further informations.";
+  }
+  
+  $pow: pow(10, $digits);
+  @return calc(round($float * $pow) / $pow);
+}
+
+/// get-clamp-value() calculates the clamp values using breakpoints and max and min font values
+/// @author Tommy Scribble
+/// @param {number} $min-value from $fonts map
+/// @param {number} $max-value from $fonts map
+/// @param {number} $min-breakpoint from $breakpoints map
+/// @param {number} $max-breakpoint from $breakpoints map
+/// @return {property} the clamp CSS property with calculated values
+@function get-clamp-value($min-value, $max-value, $min-breakpoint: map-get($breakpoints, sm), $max-breakpoint: map-get($breakpoints, lg)) {
+	$min-value-rem: calc($min-value / $base-font-size);
+	$max-value-rem: calc($max-value / $base-font-size);
+	$min-breakpoint-rem: $min-breakpoint;
+	$max-breakpoint-rem: $max-breakpoint;
+
+	$slope: calc(($max-value-rem - $min-value-rem) / ($max-breakpoint-rem - $min-breakpoint-rem));
+	$y-axis-intersection: calc(($min-breakpoint-rem * -1) * $slope + $min-value-rem);
+	$preferred-val: calc(to-fixed(($y-axis-intersection * 1rem), 3) + (to-fixed((($slope * 100) * 1vw), 3)));
+
+	@return clamp(to-fixed($min-value-rem * 1rem, 3), $preferred-val, to-fixed($max-value-rem * 1rem, 3));
+}
+
+/// Uses the variables in the $margins 
+/// @author Ricardo Silva
+/// @param {variable | number} $margin will be taken from the $margins map
+/// @return {value} value formatted
+@function margin($margin-type, $margin) {
+	@if map-has-key($margins, $margin-type) {
+		$value:map-deep-get($margins, $margin-type, $margin);
+		@return rem(#{$value + "px"});
+	}
+}
+
+/// @author Ricardo Silva
+/// @param {$hexcolor & $opacity}
+/// @return {rgba} value formatted
+@function hex-to-rgba($hexcolor, $opacity) {
+	@return rgba($hexcolor, $opacity); 
+}

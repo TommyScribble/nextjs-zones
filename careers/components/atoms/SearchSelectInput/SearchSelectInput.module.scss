@@ -1,0 +1,40 @@
+/* stylelint-disable */
+
+$input-height: rem(30px);
+
+.input {
+	height: $input-height;
+}
+
+.container {
+	position: relative;
+}
+
+.listbox {
+	position: absolute;
+	top: $input-height + $spacing-2;
+	left: 0;
+	right: 0;
+	height: rem(300px);
+	margin: 0;
+	padding: 0;
+
+	&[aria-expanded="false"]{
+		display: none;
+	}
+}
+
+.option {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 $spacing-2;
+
+	&[aria-selected= "true"] {
+		background-color: lightcyan;
+	}
+
+	&.highlighted {
+		background-color: lightgray;
+	}
+}

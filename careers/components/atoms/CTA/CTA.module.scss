@@ -1,0 +1,35 @@
+// Size
+.large {
+	min-width: rem(330px);
+}
+
+// // Variant with colors
+.primary {
+
+	&--brand_primary {
+		@include button-style(primary-brand);
+	}
+
+	&--utility_lightest {
+		@include button-style(primary-utility);
+	}
+}
+
+.secondary {
+
+	&--brand_primary {
+		@include button-style(secondary-brand);
+	}
+
+	&--utility_lightest {
+		@include button-style(secondary-utility);
+	}
+}
+
+.tertiary {
+	@include button-style(tertiary);
+}
+
+.quaternary {
+	@include button-style(quaternary);
+}

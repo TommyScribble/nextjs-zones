@@ -1,0 +1,12 @@
+.checkbox {
+
+	.checkboxInput {
+		margin-right: $spacing-2;
+	}
+
+	.checkboxLabel {
+		@include font-get(bodyS);
+
+		color: colour-get(utility, lightest);
+	}
+}

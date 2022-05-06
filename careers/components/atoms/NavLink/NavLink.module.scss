@@ -1,0 +1,94 @@
+.navLink {
+	@include font-get(headingXS);
+
+	position: relative;
+	font-family: $bluestone-custom;
+	color: colour-get(utility, lightest);
+	text-decoration: none;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: $spacing-3;
+		left: -35px;
+		border-left: 8px solid transparent;
+		height: 32px;
+		width: 8px;
+		transition: border-left 0.3s ease;
+	}
+
+	&:hover:before {
+		content: "";
+		position: absolute;
+		top: $spacing-3;
+		left: -35px;
+		border-left: 8px solid colour-get(utility, lightest);
+		height: 32px;
+		width: 8px;
+	}
+
+	&.active {
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: $spacing-3;
+			left: -35px;
+			border-left: 8px solid colour-get(utility, lightest);
+			height: 32px;
+			width: 8px;
+		}
+
+		@include media($desktop-breakpoint) {
+			font-weight: 700;
+			border-left: 0;
+			border-top: 4px solid colour-get(utility, lightest);
+
+			&:before {
+				content: none;
+			}
+		}
+	}
+
+	@include media($desktop-breakpoint) {
+		@include font-get(body);
+
+		display: inline-flex;
+		flex-direction: column;
+		font-family: $bluestone-heading-std;
+		font-size: rem(16px);
+		font-weight: 300;
+		border-top: 4px solid transparent;
+		border-left: 0;
+		transition: border-top 0.5s linear, font-weight 0.4s linear;
+
+		&:after {
+			content: attr(data-title);
+			content: attr(data-title) / "";
+			overflow: hidden;
+			height: 0;
+			visibility: hidden;
+			user-select: none;
+			pointer-events: none;
+			font-weight: 700;
+
+			@media speech {
+				display: none;
+			}
+		}
+
+		&:before {
+			content: none;
+		}
+
+		&:hover {
+			font-weight: 700;
+			border-left: none;
+			border-top: 4px solid colour-get(utility, lightest);
+
+			&:before {
+				content: none;
+			}
+		}
+	}
+}

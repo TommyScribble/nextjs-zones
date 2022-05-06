@@ -1,0 +1,113 @@
+.burger {
+	position: relative;
+	overflow: visible;
+	display: inline-block;
+	margin: 0;
+	padding: $spacing-3;
+	border: 0;
+	color: inherit;
+	text-transform: none;
+	background-color: transparent;
+	font: inherit;
+	transition-property: opacity, filter;
+	transition-duration: 0.15s;
+	transition-timing-function: linear;
+	cursor: pointer;
+	z-index: 1;
+
+	// magic number is current breakpoint for mobile nav
+	@include media($desktop-breakpoint) {
+		display: none;
+	}
+
+	&:hover {
+		opacity: 70%;
+	}
+
+	&.isActive:hover {
+		opacity: 100%;
+	}
+
+	&.isActive {
+		background-color: colour-get(brand, primary);
+		border-radius: 50%;
+		height: 50px;
+	}
+}
+
+.burger.isActive .burgerInner,
+.burger.isActive .burgerInner:before,
+.burger.isActive .burgerInner:after {
+	background-color: colour-get(utility, lightest);
+}
+
+.burgerBox {
+	position: relative;
+	display: inline-block;
+	height: 10px;
+	width: 20px;
+}
+
+.burgerInner {
+	display: block;
+	top: 50%;
+	margin-top: -2px;
+}
+
+.burgerInner,
+.burgerInner:before,
+.burgerInner:after {
+	position: absolute;
+	height: 2px;
+	width: 20px;
+	background-color: colour-get(utility, lightest);
+	border-radius: 4px;
+	transition-property: transform;
+	transition-duration: 0.15s;
+	transition-timing-function: ease;
+}
+
+.burgerInner:before,
+.burgerInner:after {
+	content: "";
+	display: block;
+}
+
+.burgerInner:before {
+	top: -5px;
+}
+
+.burgerInner:after {
+	bottom: -5px;
+}
+
+.burgerSqueeze .burgerInner {
+	transition-duration: 0.075s;
+	transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.burgerSqueeze .burgerInner:before {
+	transition: top 0.075s 0.12s ease, opacity 0.075s ease;
+}
+
+.burgerSqueeze .burgerInner:after {
+	transition: bottom 0.075s 0.12s ease, transform 0.075s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.burgerSqueeze.isActive .burgerInner {
+	transform: rotate(45deg);
+	transition-delay: 0.12s;
+	transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.burgerSqueeze.isActive .burgerInner:before {
+	top: 0;
+	opacity: 0%;
+	transition: top 0.075s ease, opacity 0.075s 0.12s ease;
+}
+
+.burgerSqueeze.isActive .burgerInner:after {
+	bottom: 0;
+	transform: rotate(-90deg);
+	transition: bottom 0.075s ease, transform 0.075s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
+}

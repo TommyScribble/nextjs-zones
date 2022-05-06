@@ -1,0 +1,10 @@
+.anchorLink {
+	@include font-get(body);
+
+	text-decoration: underline rem(2px) colour-get(brand, primary);
+	transition: text-decoration 0.3s;
+
+	&:hover {
+		text-decoration-color: transparent;
+	}
+}

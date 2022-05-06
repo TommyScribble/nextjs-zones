@@ -1,0 +1,6 @@
+// Gradients
+$left-right-black50-gradient: linear-gradient(90deg, colour-get(translucent, black50), transparent);
+$bottom-top-black50-gradient: linear-gradient(0deg, colour-get(translucent, black50), transparent);
+
+// Box Shadows
+$centered-box-shadow: 0 0 33px 9px rgb(60 60 59 / 41%);

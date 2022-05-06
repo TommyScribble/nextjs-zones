@@ -1,0 +1,58 @@
+@import "~normalize.css/normalize.css", "./fonts", "./colours", "./mixins",
+	"./z-index", "react-multi-carousel/lib/styles.css";
+
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+html,
+body {
+	font-size: $base-font-size * 1px;
+	font-family: $bluestone-body;
+	color: colour-get(utility, greydark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $bluestone-heading-std;
+	margin: 0;
+}
+
+li {
+	list-style: none;
+}
+
+svg {
+	height: unset;
+	width: unset;
+}
+
+// Use for all items that need text for a11y
+.visuallyHidden {
+	position: absolute;
+	overflow: hidden;
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	clip: rect(0 0 0 0);
+}
+
+.dark {
+	background-color: colour-get(brand, primary);
+}
+
+.light {
+	background-color: colour-get(utility, lightest);
+}

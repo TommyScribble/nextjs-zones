@@ -1,0 +1,28 @@
+@import "../../../styles/fonts", "../../../styles/variables",
+	"../../../styles/mixins";
+
+%shared-styles {
+	display: block;
+	font-family: $bluestone-body;
+	margin: 0;
+}
+
+.bodyM {
+	@extend %shared-styles;
+	@include font-get(bodyM);
+}
+
+.body {
+	@extend %shared-styles;
+	@include font-get(body);
+}
+
+.bodyA11y {
+	@extend %shared-styles;
+	@include font-get(bodyA11y);
+}
+
+.bodyS {
+	@extend %shared-styles;
+	@include font-get(bodyS);
+}
